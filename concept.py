@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import date
 from typing import Optional
-from pydcr import iscr, isdcr  # ,cr, isdcr
+from pydcr import iscr, isdcr, cr, _dcrs
 from yarl import URL
 
 
@@ -18,14 +18,15 @@ class BandMember:
     @classmethod
     def from_str(cls, string):
         spl = string.split()
-        return cls(spl[0], date.fromisoformat(spl[-1]))
+        return cls(spl[0][:-1], date.fromisoformat(spl[-1]))
 
 
 @dataclass
 class Band:
-    Name: str
+    name: str
     members: list[BandMember]
     website: Optional[URL] = None
+    _helper = 'default'
 
 
 @iscr(URL)
@@ -51,6 +52,8 @@ def main():
     members = list(map(BandMember.from_str, serialized['members']))
     url = deserialize_url(URL, serialized['website'])
     band = Band(serialized['name'], members, url)
+    print(cr(band))
+    print(_dcrs[BandMember](BandMember, serialized['members'][0]))
     # assert dcr(Band, serialized) == band
     # assert cr(band) == serialized
 
