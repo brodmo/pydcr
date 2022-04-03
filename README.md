@@ -1,7 +1,7 @@
 ## pydcr -- python dataclass (de)serialization
 
 ### features
-- (de)convert (nested) dataclasses to (and from) native python types  
+- convert (nested) dataclasses to and from native python types  
 - type conversion/checking on deserialization
   - otherwise no validation -- use dataclass `__post_init__`
 
